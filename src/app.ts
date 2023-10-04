@@ -1,4 +1,6 @@
+import { HasFormatter } from './interfaces/HasFormatter.js';
 import { Invoice } from './models/Invoice.js';
+import { Payment } from './models/Payment.js';
 
 interface IsPerson {
     name: string,
@@ -25,16 +27,18 @@ const greet = (person: IsPerson): void => {
 
 greet(me);
 
-const invoice1 = new Invoice("Jack", "Lunch", 2000);
-const invoice2 = new Invoice("Magzhan", "Tennis", 3000);
+// const invoice1 = new Invoice("Jack", "Lunch", 2000);
+// const invoice2 = new Invoice("Magzhan", "Tennis", 3000);
 
-let invoices: Invoice[] = [];
-invoices.push(invoice1);
-invoices.push(invoice2);
+// let invoices: Invoice[] = [];
+// invoices.push(invoice1);
+// invoices.push(invoice2);
 
-invoices.forEach(invoice => {
-    console.log(invoice.format());
-});
+// invoices.forEach(invoice => {
+//     console.log(invoice.format());
+// });
+
+
 
 const form = document.querySelector('.new-item-form') as HTMLFormElement;
 
@@ -46,10 +50,14 @@ const button = document.querySelector('#add') as HTMLButtonElement;
 
 form.addEventListener('submit', (e: Event) => {
     e.preventDefault();
-    console.log(
-        type.value,
-        toFrom.value,
-        details.value,
-        amount.valueAsNumber,
-    );
+
+    let doc: HasFormatter;
+
+    if (type.value === 'invoice') {
+        doc = new Invoice(toFrom.value, details.value, amount.valueAsNumber);
+    } else {
+        doc = new Payment(toFrom.value, details.value, amount.valueAsNumber);
+    }
+
+    console.log(doc);
 });
